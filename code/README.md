@@ -76,7 +76,18 @@
 
 **12/31版本更新：**
 
-增加进度存储功能，可以在退出游戏后进入之前保存的存档。
+- 增加进度存储功能，可以在退出游戏后进入之前保存的存档。
+
+在游戏界面点击“S"即可存档。进入游戏时选择”L"选项即可继续上次的游戏。
+
+![image-20211227194729418](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227194729418.png)
+
+![image-20211227194705222](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227194705222.png)
+
+- 游戏代码可测试
+
+  <img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227194838127.png" alt="image-20211227194838127" style="zoom:50%;" />
+
 
 
 ## 三、思考与总结
@@ -85,7 +96,7 @@
 
 ​	在这个阶段。实现了基本流畅的游戏运行，和较为好看的游戏界面。但由于时间和个人原因（最开始拖延了，最近一周事情又突然变多），很多东西待完善，这里列出几点：
 ​	1.**敌方的多线程**。在研究我用的这套rugelike框架之前，我以为多线程非常好实现：首先将敌方单位的class实现runnable或者callable，来创建敌方单位。然后在界面里创建线程，或者用线程池来运行创建敌方任务的线程即可。但写到能运行的时候发现，不知道用哪个类来实现runnable了，而且run中的任务也没想明白。
-​	所以准确的来说我这个任务没有完成的很好，只是在Ai类里实现了Runnable，在工厂创建时调用线程来创建新的Ai：大概是这样：
+​	所以准确的来说并不能算是多线程优化，只是在Ai类里实现了Runnable，在工厂创建时调用线程来创建新的Ai：大概是这样：
 
 ```java
 public Creature newBat(PlayScreen plsc){
@@ -105,13 +116,11 @@ public Creature newEBat(Creature player,PlayScreen plsc){
 	//new EBatAi(bat, player, plsc);
 	return bat;
 }
-
-所以期末之前我需要再完善线程内容。
 ```
 
-​	2.**关卡跳转**。虽然没能实现但有一个大概的思路。就是用playscreen中关卡标志来记录当前难度，在生成怪物或者涉及攻击防御等战斗因素时，用关卡难度来区别每一关。在救到葫芦娃之后，将救到的葫芦娃加入Team队列，然后更新关卡难度，重刷界面。再重刷界面时界面中的“LEVEL"和“Team menbers”也相应随记录的关卡标志和Team队列更新。
+​	2.**关卡跳转**。虽然没能实现但有一个大概的思路。就是用playscreen中关卡标志来记录当前难度，在生成怪物或者涉及攻击防御等战斗因素时，用关卡难度来区别每一关。在救到葫芦娃之后，将救到的葫芦娃加入Team队列，然后更新关卡难度，重刷界面。再重刷界面时界面中的“LEVEL"和“Team members”也相应随记录的关卡标志和Team队列更新。
 
-​	3.**敌方移动的智能算法**。目前为了能够正常运行游戏，怪物的寻敌方式还是太简单了，准备下一次更新在网络上学习一些比较智能的算法。
+​	3.**敌方移动的智能算法**。目前的寻路算法就是在距离较远时进行游荡，在玩家靠近时，向玩家方向移动。
 
 **最大的收获：**
 
@@ -123,9 +132,9 @@ public Creature newEBat(Creature player,PlayScreen plsc){
 
 #### **2021/12/31版本：**
 
-这个版本的学习中感触很多：
+这个版本的学习中感受很多：
 
-**1.游戏进度储存读取功能√：**
+##### **1.游戏进度储存读取功能√：**
 
 ​	在实现游戏进度储存的功能之前，我以前接触过的存取代码差不多要追溯到大一程设实验写文件存取的时候，当时用c语言来实现文件内容的存取，用到文件指针来操控存取位置，还要按照一定格式来存字符串，读，拆分字符串。总之非常麻烦。
 
@@ -163,9 +172,13 @@ public Screen loadsave() throws Exception
 
 在我的代码中，是将整个PlayScreen保存，里面包含了角色信息，世界信息，游戏状态信息等等，在点击保存按钮时，调用序列化代码，在读取时将存储文件反序列化即可实现游戏进度的保存和继续。
 
-**2.代码测试√：**
+##### **2.代码测试√：**
 
-如果要想实现java项目的测试，那么需要用到第三方测试工具，在本项目中我选择了Junit。我在网站上下载了正确版本的junit.jar与hamcrest-core.jar,并且导入到了我的工程中，只需要编写测试代码对于各个类进行测试即可。比如我暂时编写了三个重要类的测试：
+如果要想实现java项目的测试，那么需要用到第三方测试工具，在本项目中我选择了Junit。我在网站上下载了正确版本的junit.jar与hamcrest-core.jar,并且导入到了我的工程中：
+
+<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227203519924.png" alt="image-20211227203519924" style="zoom:50%;" />
+
+只需要编写测试代码对于各个类进行测试即可。比如我暂时编写了三个重要类的测试：
 
 <img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211224220935180.png" alt="image-20211224220935180" style="zoom:50%;" />
 
@@ -214,19 +227,155 @@ public class WorldTest {
     }
 ```
 
-**3.游戏联机功能：**
+##### **3.游戏联机功能×：**
 
-​	实现联机功能，写client，server端，其实看了很多遍老师的课件也一点不懂。这种东西必须靠上网搜一些实践教学，在写代码的过程中一点点悟。所以我在B站看了许多java网络编程的视频。大多涉及到一个网络聊天室的例子，网络聊天室要编写client，server端互相发送信息，多人联机server端还要实现负责更新全体状态等功能。在学习后，我对我游戏的联机想法是：
-	由于是双人联机，而且selector之类的知识并没有学很懂（我想正确的应该是开个服务端，用户端为各游戏玩家，服务端负责同步信息，传递信息等？），所以我就简化了下，用UDP协议互相发包，游戏按键后更新状态并发包，接到包后也立即更新状态，发包就用ObjectStream来装整个游戏状态，接到状态后结合自己的Player信息来打印到屏幕上。
+​	实现联机功能，写client，server端，其实看了很多遍老师的课件也不懂。这种东西必须靠上网搜一些实践教学，在写代码的过程中一点点悟。所以我在B站看了许多java网络编程的视频。大多涉及到一个网络聊天室的例子，网络聊天室要编写client，server端互相发送信息，多人联机server端还要实现负责更新全体状态等功能。在学习后，我对我游戏的联机想法是：
+​	写一个服务端运行游戏框架，以线程来接收各玩家信息，每次更新游戏状态都向所有玩家发包同步状态。玩家客户端就只用打印地图并案件操作发包就行。但在网上学了一些杂七杂八的NIO selector的知识并不能很会用。所以我就又想的是由于只有两个玩家进行游戏，所以他们分别带着不同端口的参数运行游戏框架，进入客户端的NetPlayScreen：
+<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227200855785.png" alt="image-20211227200855785" style="zoom:50%;" />
 
+这个游戏运行界面继承了单机的PlayScreen但在其基础上增加了Payer2。
+
+首先介绍InfoReceive类，是一个线程实现UDP不停读序列化对象的类：
+
+```java
+public class InfoReceive implements Runnable{
+    DatagramSocket socket=null;
+    private int port;
+    NetPlayScreen t;
+    public InfoReceive (int port,NetPlayScreen t)
+    {
+        this.t=t;
+        this.port=port;
+        try{
+            socket=new DatagramSocket(port);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        while(true)
+        {
+            try {
+                byte[] data=new byte[1024*60];
+                DatagramPacket packet= new DatagramPacket(data,0,data.length);
+                //接受包裹
+                socket.receive(packet);
+                //分析数据
+                System.out.println(port+": 收到一个包");
+                byte[] datas=packet.getData();
+                int len=packet.getLength();
+            
+                ObjectInputStream ois=new ObjectInputStream(new BufferedInputStream(new ByteArrayInputStream(datas)));
+                Object r=ois.readObject();
+                if(r instanceof content)
+                {
+                    content tmp=(content)r;
+                    t.iswin=tmp.iswin;
+                    t.ispause=tmp.ispause;
+                    t.world=tmp.world;
+                    t.world.items[t.player2.x][t.player2.y]=null;
+                    t.world.items[tmp.player.x][tmp.player.y]=t.player2;
+                    t.player2.x=tmp.player.x;
+                    t.player2.y=tmp.player.y;
+                    t.score=tmp.score;
+                    t.level=tmp.level;
+                }
+                System.out.println(port+": 更新了一次地图");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
 ```
-Client
 
-Server
+可以看到其实现的功能就是从特定端口不停读取数据，读到的是一个content类，其中是我把地图信息给装进去了，每次读到信息就更新本客户端的地图信息。（这里本来是直接把整个界面给当成包发送的，结果涉及到一个UDP包超过大小限制的Exception，我想不会还要涉及到包的分割吧，所以就精简了发送的内容用content包装）
+
+那么回到NetPlayScreen的游戏界面，初始化就运行不断抓包的线程：
+
+```java
+public NetPlayScreen(int port,int sendport,int tarport){
+        super();
+        //Net
+		this.sendport=sendport;
+        this.port=port;
+        this.tarport=tarport;
+		//
+		this.player2=Items.PLAYER2;
+		bos=null;
+		oos=null;
+		//
+        try {
+            //socket =new DatagramSocket(port);
+            bos=new ByteArrayOutputStream();
+            oos=new ObjectOutputStream(new BufferedOutputStream(bos));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+		//开线程接包
+        new Thread(new InfoReceive(port,this)).start();
+	}
 ```
 
+然后在玩家每次按键后，进行当前地图状态的发送：
+
+```java
+//UDP发送当前状态
+        //1、把所有信息保存起来
+		content tmp=new content(world, player, score, level, iswin, ispause);
+        //2、通过socket发送
+        try {
+			socket=new DatagramSocket(sendport);
+            oos.writeObject(tmp);
+            oos.flush();
+            byte[] datas2=bos.toByteArray();
+            DatagramPacket packet2 =new DatagramPacket(datas2,0,datas2.length,new InetSocketAddress("localhost",tarport));
+            //发送包裹
+            socket.send(packet2);
+
+			System.out.println(sendport+"向"+tarport+"发了一个包");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //释放资源
+        if(socket!=null)
+            socket.close();
+        
+		//
+		System.out.println("玩家一发出信息");
+		//world.update();
+        //
+        if(iswin==true)
+			return new WinScreen();
+		if (player.hp() < 1)
+			return new LoseScreen();
+		
+		return this;
+```
+
+Player1的各种功能跟之前单机版本一样，而Player2我想的是在某个玩家的界面就把对方玩家看做一个Item，只是在自己的界面显示对方就可以了，但只能操作自己。所以游戏的步骤大概就是两个玩家分别对接上对方的端口号，不停接受对方的信息，每次按键更新打印整个世界，并发送最新的世界状态给对方。
+
+但几经debug，最后虽然能实现地图的同步，但会出现bug：
+
+![image-20211227202920628](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227202920628.png)
 
 
+
+具体表现为：虽然能够正确发送信息（下两图为两个客户端收发信息的记录，都正常）：
+
+<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227203000448.png" alt="image-20211227203000448" style="zoom:50%;" />
+
+<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227203044988.png" alt="image-20211227203044988" style="zoom:50%;" />
+
+但玩家位置更新会出现问题，并且随着多次互相通信，依然会报下列错：
+
+![image-20211227203202007](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227203202007.png)
+
+因为个人时间原因，这个功能算是寄了，虽然不能保质量按时完成作业了，但会在后续更新中，打倒重来推出一个比较合理的游戏版本。
 
 ## 四、主要类的介绍（待完善）
 
@@ -952,70 +1101,3 @@ public enum Items {
 
 
 
-## 三、展示与细节
-
-展示视频发布在bilibili：https://www.bilibili.com/video/BV18Z4y197vr?share_source=copy_web
-
-展示描述：
-
-- 首先进入游戏，BGM响起，眼前的是PlayScreen欢迎你来到“爷爷救葫芦娃”这个游戏，“WELCOME TO THE GAME”，此时可以选择进行游戏，查看手册，或者退出游戏。
-
-- ![image-20211207021722568](resources/image-20211207021722568.png)
-
-- 如果选择查看手册则进入手册界面，你可以形象的了解到游戏操作方法，怪物种类和规则。
-
-  ![image-20211207021825161](resources/image-20211207021825161.png)
-
-- 选择继续游戏，进入Play界面：
-
-  蓝色小人为主角爷爷，下方左侧状态栏显示你的HP，得分，以及关卡难度（LEVEL），右侧显示队伍成员信息，暂时只有爷爷在队伍中，下方是提示信息。
-
-  ![image-20211207021928325](resources/image-20211207021928325.png)
-
-- 你可以进行挖掘：
-
-  ![image-20211207022238856](resources/image-20211207022238856.png)
-
-- 蝙蝠兵¥在你靠近时（设置的半径为6）将会主动攻击你，在远离时则随机游走。你可以攻击它们，他们也会攻击你：
-
-- ![image-20211207022559740](resources/image-20211207022559740.png)
-
-  ![image-20211207022614352](resources/image-20211207022614352.png)
-
-- 随时注意你的状态。绿色血量表示你还比较强壮，黄色则表示你可能要注意一下血量了，红色则代表你已经很虚弱了。
-
-  ![image-20211207022722431](resources/image-20211207022722431.png)
-
-  ![image-20211207022814333](resources/image-20211207022814333.png)
-
-  ![image-20211207022842728](resources/image-20211207022842728.png)
-
-- 在杀死敌方单位后你会获得金币，而被地方杀死则会来到Lost界面，当然，你可以选择重头再来。
-
-  ![image-20211207023049559](resources/image-20211207023049559.png)
-
-![image-20211207023123702](resources/image-20211207023123702.png)
-
-- 在找到本层的葫芦娃后会跳转到下一层（暂未实现关卡）
-
-  ![image-20211207135211799](resources/image-20211207135211799.png)
-
-  ![image-20211207135244289](resources/image-20211207135244289.png)
-
-## 四、思考与总结
-
-**更新于2021/12/6：**
-	在这个阶段。实现了基本流畅的游戏运行，和较为好看的游戏界面。但由于时间和个人原因（最开始拖延了，最近一周事情又突然变多），很多东西没有完成，这里列出几点：
-	1.敌方的多线程。在研究我用的这套rugelike框架之前，我以为多线程非常好实现：首先将敌方单位的class实现runnable或者callable，来创建敌方单位。然后在界面里创建线程，或者用线程池来运行创建敌方任务的线程即可。但写到差不多的时候发现，不知道应该哪个类来实现runnable了，而且run的任务，我也越想越糊涂。所以在12/7之前我没能实现这个。
-
-​	2.关卡跳转。虽然没能实现但有一个大概的思路。就是用playscreen中关卡标志来记录当前难度，在生成怪物或者涉及攻击防御等战斗因素时，用关卡难度来区别每一关。在救到葫芦娃之后，将救到的葫芦娃加入Team队列，然后更新关卡难度，重刷界面。再重刷界面时界面中的“LEVEL"和“Team menbers”也相应随记录的关卡标志和Team队列更新。
-
-​	3.敌方单位的智能算法。目前为了能够正常运行游戏，怪物的寻敌方式还是太简单了，准备下一次更新在网络上学习一些比较智能的算法。
-
-**最大的收获：**
-
-​	在这次游戏的debug中，没想到最大的收获感觉是对于类中函数参数的理解加深了。打个比方。在我用的jw04的这个ruguelike框架中，最外层是入口类Begin继承JFrame，其中包含界面screen和terminal。在对screen进行操作时，是每次将terminal作为参数传入的，所以如果在screen中想对terminal进行操作只能通过相应函数。虽然这体现了面向对象的封装但有的时候感觉还是好麻烦。果然方便和安全性是不可兼得的。
-
-​	再比如Creature类和CreatureAi类是互相绑定的，在他们的构造函数中他们就通过传入参数绑定了彼此，这种互相绑定就可以是他们作为彼此的成员，互相调用，简化了好多操作。
-
-​	期末将至希望能30号之前最后冲一波，不挂科o(╥﹏╥)o
