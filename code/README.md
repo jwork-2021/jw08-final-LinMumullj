@@ -80,13 +80,13 @@
 
 在游戏界面点击“S"即可存档。进入游戏时选择”L"选项即可继续上次的游戏。
 
-![image-20211227194729418](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227194729418.png)
+![image-20211227194729418](resources/image-20211227194729418.png)
 
-![image-20211227194705222](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227194705222.png)
+![image-20211227194705222](resources/image-20211227194705222.png)
 
 - 游戏代码可测试
 
-  <img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227194838127.png" alt="image-20211227194838127" style="zoom:50%;" />
+  <img src="resources/image-20211227194838127.png" alt="image-20211227194838127" style="zoom:50%;" />
 
 
 
@@ -176,11 +176,11 @@ public Screen loadsave() throws Exception
 
 如果要想实现java项目的测试，那么需要用到第三方测试工具，在本项目中我选择了Junit。我在网站上下载了正确版本的junit.jar与hamcrest-core.jar,并且导入到了我的工程中：
 
-<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227203519924.png" alt="image-20211227203519924" style="zoom:50%;" />
+<img src="resources/image-20211227203519924.png" alt="image-20211227203519924" style="zoom:50%;" />
 
 只需要编写测试代码对于各个类进行测试即可。比如我暂时编写了三个重要类的测试：
 
-<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211224220935180.png" alt="image-20211224220935180" style="zoom:50%;" />
+<img src="resources/image-20211224220935180.png" alt="image-20211224220935180" style="zoom:50%;" />
 
 ```java
 //在测试中before用于在测试前初始化一些类别，用expected来测异常，timeout来测性能。
@@ -231,7 +231,7 @@ public class WorldTest {
 
 ​	实现联机功能，写client，server端，其实看了很多遍老师的课件也不懂。这种东西必须靠上网搜一些实践教学，在写代码的过程中一点点悟。所以我在B站看了许多java网络编程的视频。大多涉及到一个网络聊天室的例子，网络聊天室要编写client，server端互相发送信息，多人联机server端还要实现负责更新全体状态等功能。在学习后，我对我游戏的联机想法是：
 ​	写一个服务端运行游戏框架，以线程来接收各玩家信息，每次更新游戏状态都向所有玩家发包同步状态。玩家客户端就只用打印地图并案件操作发包就行。但在网上学了一些杂七杂八的NIO selector的知识并不能很会用。所以我就又想的是由于只有两个玩家进行游戏，所以他们分别带着不同端口的参数运行游戏框架，进入客户端的NetPlayScreen：
-<img src="C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227200855785.png" alt="image-20211227200855785" style="zoom:50%;" />
+<img src="resources/image-20211227200855785.png" alt="image-20211227200855785" style="zoom:50%;" />
 
 这个游戏运行界面继承了单机的PlayScreen但在其基础上增加了Payer2。
 
@@ -359,9 +359,9 @@ public NetPlayScreen(int port,int sendport,int tarport){
 
 Player1的各种功能跟之前单机版本一样，而Player2我想的是在某个玩家的界面就把对方玩家看做一个Item，只是在自己的界面显示对方就可以了，但只能操作自己。所以游戏的步骤大概就是两个玩家分别对接上对方的端口号，不停接受对方的信息，每次按键更新打印整个世界，并发送最新的世界状态给对方。
 
-但几经debug，最后虽然能实现地图的同步，但会出现bug：
+但几经debug，最后地图看上去是成功发送了，但会出现bug，只能31号后改了：
 
-![image-20211227202920628](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227202920628.png)
+![image-20211227202920628](resources/image-20211227202920628.png)
 
 
 
@@ -375,7 +375,9 @@ Player1的各种功能跟之前单机版本一样，而Player2我想的是在某
 
 ![image-20211227203202007](C:\Users\huawei\AppData\Roaming\Typora\typora-user-images\image-20211227203202007.png)
 
-因为个人时间原因，这个功能算是寄了，虽然不能保质量按时完成作业了，但会在后续更新中，打倒重来推出一个比较合理的游戏版本。
+应该是游戏中逻辑出了问题，但其实最好是写Server端大改一下。
+
+因为个人时间原因，这个功能算是寄了，虽然不能保质量按时完成作业了，但会在后续更新中，打倒重来推出一个比较合理的网络游戏版本。
 
 ## 四、主要类的介绍（待完善）
 
