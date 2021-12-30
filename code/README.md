@@ -25,6 +25,7 @@
 ## 二、展示与细节
 
 展示视频发布在bilibili：https://www.bilibili.com/video/BV18Z4y197vr?share_source=copy_web
+最终效果在https://www.bilibili.com/video/BV1734y1z7KA?share_source=copy_web
 
 展示描述：
 
