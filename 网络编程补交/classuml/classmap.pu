@@ -1,0 +1,9 @@
+@startuml
+
+class Begin{
+    
+}
+
+class MyPanel{
+
+}
